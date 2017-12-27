@@ -9,6 +9,7 @@ gem 'sqlite3'
 gem 'paperclip', '~> 5.0.0'
 # Devise
 gem 'devise'
+gem 'wiselinks'
 # Faker
 gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 # Paginação

@@ -4,7 +4,8 @@ class LoansController < ApplicationController
   # GET /loans
   # GET /loans.json
   def index
-    @loans = Loan.all
+    @user = User.find(params[:format])
+    @loans = Loan.by_category(@user, params[:page])
   end
 
   # GET /loans/1
@@ -15,6 +16,9 @@ class LoansController < ApplicationController
   # GET /loans/new
   def new
     @loan = Loan.new
+    @book = Book.find(params[:format])
+    book = Book.find(params[:format])
+    book.unavailable!
   end
 
   # GET /loans/1/edit
@@ -24,11 +28,15 @@ class LoansController < ApplicationController
   # POST /loans
   # POST /loans.json
   def create
+
     @loan = Loan.new(loan_params)
+    @user = current_user
+    @loan.user = @user
+    
 
     respond_to do |format|
       if @loan.save
-        format.html { redirect_to @loan, notice: 'Loan was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Loan was successfully created.' }
         format.json { render :show, status: :created, location: @loan }
       else
         format.html { render :new }
@@ -54,9 +62,10 @@ class LoansController < ApplicationController
   # DELETE /loans/1
   # DELETE /loans/1.json
   def destroy
+    @loan.book.available!
     @loan.destroy
     respond_to do |format|
-      format.html { redirect_to loans_url, notice: 'Loan was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'Loan was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

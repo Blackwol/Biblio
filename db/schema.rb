@@ -11,15 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171226183047) do
+ActiveRecord::Schema.define(version: 20171227045727) do
 
   create_table "books", force: :cascade do |t|
     t.string   "title"
     t.string   "author"
     t.string   "editor"
     t.integer  "page"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "status",     default: 0
   end
 
   create_table "categories", force: :cascade do |t|
@@ -27,6 +28,18 @@ ActiveRecord::Schema.define(version: 20171226183047) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "loans", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "book_id"
+    t.date     "date"
+    t.date     "return"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "loans", ["book_id"], name: "index_loans_on_book_id"
+  add_index "loans", ["user_id"], name: "index_loans_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name",                   default: "", null: false

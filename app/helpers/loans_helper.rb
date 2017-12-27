@@ -1,2 +1,2 @@
-module LoansHelper
+module LoansHelper	
 end
